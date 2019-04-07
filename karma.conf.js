@@ -20,7 +20,7 @@ module.exports = config => {
           {
             test: /\.html$/,
             loaders: ['raw-loader'],
-          },
+      },
           {
             test: /\.scss$/,
             loaders: ['raw-loader', 'sass-loader'],
