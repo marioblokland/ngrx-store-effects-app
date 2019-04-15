@@ -1,10 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { Pizza } from '../../models/pizza.model';
-import { getAllPizzas, ProductsState } from '../../store/reducers';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { LoadPizzas } from '../../store/actions';
+import { Observable } from 'rxjs/Observable';
+import * as fromStore from '../../store';
+import { Pizza } from '../../models/pizza.model';
 
 @Component({
   selector: 'products',
@@ -17,10 +16,12 @@ import { LoadPizzas } from '../../store/actions';
         </a>
       </div>
       <div class="products__list">
-        <div *ngIf="!(pizzas$ | async)?.length">
+        <div *ngIf="!((pizzas$ | async)?.length)">
           No pizzas, add one to get started.
         </div>
-        <pizza-item *ngFor="let pizza of (pizzas$ | async)" [pizza]="pizza">
+        <pizza-item
+          *ngFor="let pizza of (pizzas$ | async)"
+          [pizza]="pizza">
         </pizza-item>
       </div>
     </div>
@@ -29,10 +30,10 @@ import { LoadPizzas } from '../../store/actions';
 export class ProductsComponent implements OnInit {
   pizzas$: Observable<Pizza[]>;
 
-  constructor(private store: Store<ProductsState>) {}
+  constructor(private store: Store<fromStore.ProductsState>) {}
 
   ngOnInit() {
-    this.pizzas$ = this.store.select(getAllPizzas);
-    this.store.dispatch(new LoadPizzas());
+    this.pizzas$ = this.store.select(fromStore.getAllPizzas);
+    this.store.dispatch(new fromStore.LoadPizzas());
   }
 }
