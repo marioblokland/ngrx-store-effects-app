@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { reducers } from './store';
+
 import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -13,7 +15,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 // this would be done dynamically with webpack for builds
 const environment = {
   development: true,
-  production: false,
+  production: false
 };
 
 export const metaReducers: MetaReducer<any>[] = !environment.production
@@ -28,8 +30,8 @@ export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'products' },
   {
     path: 'products',
-    loadChildren: '../products/products.module#ProductsModule',
-  },
+    loadChildren: '../products/products.module#ProductsModule'
+  }
 ];
 
 @NgModule({
@@ -37,11 +39,11 @@ export const ROUTES: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(ROUTES),
-    StoreModule.forRoot({}, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([]),
-    environment.development ? StoreDevtoolsModule.instrument() : [],
+    environment.development ? StoreDevtoolsModule.instrument() : []
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

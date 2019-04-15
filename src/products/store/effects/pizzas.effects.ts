@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import * as pizzaActions from '../actions/pizzas.action';
 import * as fromServices from '../../services';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { switchMap } from 'rxjs/operator/switchMap';
 
 @Injectable()
 export class PizzasEffects {
   constructor(
     private actions$: Actions,
     private pizzaService: fromServices.PizzasService
-  ) {
-  }
+  ) {}
 
   @Effect()
   loadPizzas$ = this.actions$.ofType(pizzaActions.LOAD_PIZZAS).pipe(
