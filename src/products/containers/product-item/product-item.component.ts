@@ -38,10 +38,9 @@ export class ProductItemComponent implements OnInit {
 
   ngOnInit() {
     this.pizza$ = this.store.select(fromStore.getSelectedPizza).pipe(
+      // Dispatch toppings for the selected Pizza
       tap((pizza: Pizza = null) => {
-        const pizzaExists = pizza && pizza.toppings;
-        const toppings = pizzaExists ? pizza.toppings.map(topping => topping.id) : [];
-        this.store.dispatch(new fromStore.VisualiseToppings(toppings));
+        this.store.dispatch(new fromStore.VisualiseToppings(this.getSelectedToppingsIds(pizza)));
       })
     );
     this.toppings$ = this.store.select(fromStore.getAllToppings);
@@ -49,6 +48,7 @@ export class ProductItemComponent implements OnInit {
   }
 
   onSelect(event: number[]) {
+    // Show selected toppings change
     this.store.dispatch(new fromStore.VisualiseToppings(event));
   }
 
@@ -59,5 +59,11 @@ export class ProductItemComponent implements OnInit {
   }
 
   onRemove(event: Pizza) {
+  }
+
+  private getSelectedToppingsIds(pizza: Pizza): number[] {
+    const pizzaExists = pizza && pizza.toppings;
+
+    return pizzaExists ? pizza.toppings.map(topping => topping.id) : [];
   }
 }
